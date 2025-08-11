@@ -59,14 +59,13 @@ python app.py
  ```bash
 http://127.0.0.1:5000
 ```
----
 ## 📌 API Endpoints
 Method	Endpoint	Description
 GET	/	Home page (upload form)
 POST	/upload	Upload image for recognition
 POST	/add_face	Add new face to dataset
 GET	/known_faces	List stored faces
----
+
 ## 📷 How It Works
 User uploads an image via browser or API.
 
@@ -75,10 +74,10 @@ The system detects all faces using face_recognition.face_locations().
 Each face is compared against stored encodings.
 
 If a match is found, the name is returned; otherwise, it’s marked as unknown.
----
+
 ## 📄 License
 This project is licensed under the MIT License — you can use, modify, and distribute it freely.
----
+
 ## 🤝 Contributing
 Pull requests are welcome!
 If you have new ideas for face recognition improvements, feel free to fork and submit.
