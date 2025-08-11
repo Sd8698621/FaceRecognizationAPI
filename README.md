@@ -41,5 +41,5 @@ FaceRecognizationAPI/
 
 Install dependencies using:
 
-##⚙️ Usage
+## ⚙️ Usage
 1️⃣ Clone the repository
