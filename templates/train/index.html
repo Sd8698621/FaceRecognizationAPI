@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Face Recognition - Advanced Upload</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Upload images for face recognition and labeling." />
+  <meta name="author" content="Sayan Dutta" />
+  <meta name="keywords" content="face recognition, image upload, labeling" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#3a79f7" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Face Recognition" />
+  <meta name="android-mobile-web-app-title" content="Face Recognition" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+  --primary-color: #3a79f7;
+  --primary-hover: #2d6cdf;
+  --primary-gradient: linear-gradient(135deg, #3a79f7, #5ca2fa);
+  --secondary-color: #f0f5ff;
+  --font-color: #333;
+  --bg-color: #f4f7fc;
+  --card-bg: #ffffff;
+  --border-color: #dbeafe;
+  --shadow-color: rgba(58, 121, 247, 0.15);
+  --error-color: #d32f2f;
+  --error-bg: #ffebee;
+  --success-color: #388e3c;
+  --success-bg: #e8f5e9;
+  --border-radius: 16px;
+}
+
+body {
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  background-color: var(--bg-color);
+  margin: 0;
+  padding: 16px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--font-color);
+}
+
+.card {
+  background: var(--card-bg);
+  padding: 32px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 40px var(--shadow-color);
+  width: 100%;
+  max-width: 460px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-out;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0 0 8px;
+}
+
+.card-header p {
+  margin: 0 0 24px;
+  color: #667085;
+  font-size: 1rem;
+}
+
+#file-input { display: none; }
+
+/* --- Upload Area --- */
+/* .upload-area {
+  border: 2px dashed var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 12px;
+  background-color: var(--secondary-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+} */
+
+.upload-area:hover,
+.upload-area.drag-over {
+  background-color: #e0eaff;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 12px rgba(58, 121, 247, 0.4);
+  transform: scale(1.03);
+}
+
+.upload-icon {
+  width: 52px;
+  height: 52px;
+  color: var(--primary-color);
+  margin-bottom: 16px;
+}
+
+.upload-area p {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.upload-area .browse-text {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+/* --- File Preview Area --- */
+.file-preview-area {
+  display: none;
+  text-align: left;
+  padding: 16px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  margin-top: 16px;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+#image-preview {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid var(--border-color);
+}
+
+.file-details {
+  flex-grow: 1;
+}
+
+.file-details #file-name {
+  font-weight: 600;
+  display: block;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+}
+
+.file-details #file-size {
+  font-size: 0.85rem;
+  color: #667085;
+}
+
+#remove-file-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+#remove-file-button:hover {
+  background-color: #ffebee;
+}
+
+#remove-file-button svg {
+  width: 24px;
+  height: 24px;
+  color: var(--error-color);
+}
+
+/* --- Button --- */
+button[type="submit"] {
+  width: 100%;
+  background: var(--primary-gradient);
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 24px;
+  box-shadow: 0 4px 15px rgba(58, 121, 247, 0.3);
+}
+
+button[type="submit"]:hover {
+  background: linear-gradient(135deg, #2d6cdf, #4d8ff7);
+}
+
+button[type="submit"]:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 4px;
+}
+
+button[type="submit"]:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* --- Loader --- */
+.loader {
+  display: none;
+  margin: 24px auto 0;
+  border: 5px solid #eaf4ff;
+  border-top: 5px solid var(--primary-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); } 
+  100% { transform: rotate(360deg); }
+}
+
+/* --- Flash Messages --- */
+.messages {
+  padding: 16px;
+  border-radius: var(--border-radius);
+  margin-top: 24px;
+  text-align: left;
+  font-size: 1rem;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.messages.success {
+  color: var(--success-color);
+  background: var(--success-bg);
+  border-color: #b7e1cd;
+}
+
+.messages.error {
+  color: var(--error-color);
+  background: var(--error-bg);
+  border-color: #f7c5c5;
+}
+
+.messages svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+
+/* --- Responsive Design --- */
+@media (max-width: 480px) {
+  .card { padding: 24px; }
+  .card-header h1 { font-size: 1.75rem; }
+  .card-header p { font-size: 0.9rem; }
+  .upload-area { padding: 24px; }
+  .file-details #file-name { max-width: 150px; }
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="card-header">
+      <h1>Analyze Face Image</h1>
+      <p>Upload a photo to detect and process facial features.</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" id="uploadForm">
+      <input type="file" id="file-input" name="file" accept="image/png, image/jpeg, image/jpg" required>
+
+      <label for="file-input" id="upload-label" class="upload-area">
+        <div id="upload-area-content">
+          <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+          </svg>
+          <p>Drag & drop or <span class="browse-text">browse files</span></p>
+        </div>
+      </label>
+
+      <div class="file-preview-area" id="file-preview-area">
+        <div class="file-info">
+            <img id="image-preview" src="#" alt="Image Preview">
+            <div class="file-details">
+                <span id="file-name"></span>
+                <span id="file-size"></span>
+            </div>
+            <button type="button" id="remove-file-button" aria-label="Remove file">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.134-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.067-2.09.92-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                </svg>              
+            </button>
+        </div>
+      </div>
+      
+      <button type="submit" id="submit-button" disabled>Upload and Analyze</button>
+    </form>
+    
+    <div class="loader" id="loader"></div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="messages {{ category }}">
+            {% if category == 'success' %}
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            {% endif %}
+            {% if category == 'error' %}
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+            {% endif %}
+            <span>{{ message }}</span>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+  </div>
+<footer style="width:100%; display:none; justify-content:center; align-items:center;">
+  <p>Powered by <a href="https://gemini.google.com/" target="_blank">Gemini</a> &copy; 2025</p>
+</footer>
+
+
+  <script>
+    const uploadForm = document.getElementById('uploadForm');
+    const fileInput = document.getElementById('file-input');
+    const uploadLabel = document.getElementById('upload-label');
+    const previewArea = document.getElementById('file-preview-area');
+    const imagePreview = document.getElementById('image-preview');
+    const fileNameDisplay = document.getElementById('file-name');
+    const fileSizeDisplay = document.getElementById('file-size');
+    const removeFileBtn = document.getElementById('remove-file-button');
+    const submitButton = document.getElementById('submit-button');
+    const loader = document.getElementById('loader');
+
+    const handleFile = (file) => {
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          imagePreview.src = e.target.result;
+          fileNameDisplay.textContent = file.name;
+          fileSizeDisplay.textContent = formatBytes(file.size);
+          
+          uploadLabel.style.display = 'none';
+          previewArea.style.display = 'block';
+          submitButton.disabled = false;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        // Handle non-image file selection if needed
+        alert('Please select a valid image file (PNG, JPG).');
+        fileInput.value = ''; // Reset input
+      }
+    };
+
+    const formatBytes = (bytes, decimals = 2) => {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
+    fileInput.addEventListener('change', () => handleFile(fileInput.files[0]));
+
+    uploadLabel.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadLabel.classList.add('drag-over');
+    });
+
+    uploadLabel.addEventListener('dragleave', () => {
+      uploadLabel.classList.remove('drag-over');
+    });
+
+    uploadLabel.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadLabel.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      fileInput.files = e.dataTransfer.files; // Important for form submission
+      handleFile(file);
+    });
+
+    removeFileBtn.addEventListener('click', () => {
+      fileInput.value = ''; // Clear the file input
+      previewArea.style.display = 'none';
+      uploadLabel.style.display = 'block';
+      submitButton.disabled = true;
+      imagePreview.src = '#'; // Clear preview
+    });
+
+    uploadForm.addEventListener('submit', () => {
+      if (fileInput.files.length > 0) {
+        submitButton.style.display = 'none';
+        loader.style.display = 'block';
+      }
+    });
+  </script>
+
+</body>
+</html>
