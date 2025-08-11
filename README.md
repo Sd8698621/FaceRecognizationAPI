@@ -81,8 +81,8 @@ This project is licensed under the MIT License — you can use, modify, and dist
 ## 🤝 Contributing
 Pull requests are welcome!
 If you have new ideas for face recognition improvements, feel free to fork and submit.
----
-## 🙋 Author
-Sayan Dutta
+
+# 🙋 Author
+## Sayan Dutta
 📧 Email: sayandutta.developer@gmail.com
 🌐 GitHub: [Sd8698621](https://github.com/Sd8698621/)
