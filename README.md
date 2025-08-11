@@ -17,7 +17,7 @@ It supports **face detection, recognition, and labeling** with a simple RESTful 
 ---
 
 ## 📂 Project Structure
-
+---
 FaceRecognizationAPI/
 │
 ├── app.py # Main Flask application
